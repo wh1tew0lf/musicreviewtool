@@ -1,0 +1,21 @@
+{
+  "name": "musicreviewtool",
+  "version": "1.0.0",
+  "description": "\"Music Review Tool\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/dvolkov/musicreviewtool.git"
+  },
+  "keywords": [
+    "misic",
+    "review",
+    "tools"
+  ],
+  "author": "Danil V.",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/dvolkov/musicreviewtool#readme"
+}
