@@ -1,0 +1,6 @@
+FROM node:lts
+
+WORKDIR /var/www/html/
+RUN npm ci
+RUN npm run ui:build
+RUN npm run srv:prod

@@ -1,0 +1,6 @@
+apps:
+- script: './src/srv/app.js'
+  name: 'music-review-tool'
+  watch: true
+  env:
+    PORT: 80
