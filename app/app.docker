@@ -1,4 +1,4 @@
-FROM node:lts
+FROM go:lts
 
 WORKDIR /var/www/html/
 RUN npm ci

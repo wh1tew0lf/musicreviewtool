@@ -2,8 +2,8 @@ Work on pet project (Music Review Tool)
 =======================================
 
 Technologies:
-Server: Node.js(Koa/Express/Websockets);
-Client: React/CSS3/Websockets
+Server: Golang via nginx;
+Client: React/CSS3
 DB: PostgreSQL
 
 * Integration with API like LastFm

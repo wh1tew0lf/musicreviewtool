@@ -1,8 +1,7 @@
 version: '3.1'
 
 services:
-
-  wordpress:
+  app:
     build:
       context: app
       dockerfile: app/app.docker
@@ -10,12 +9,21 @@ services:
     volumes:
       - ./app/src:/var/www/html
     ports:
-      - 8084:80
+      - 80:80
     environment:
       APP_DB_PASSWORD: mrt
       APP_DB_NAME: mrt
       APP_DB_USER: mrt
       APP_DB_HOST: db
+
+  frontend:
+    image: nginx:stable
+    restart: always
+    volumes:
+      - ./frontend/src/dist:/var/www/html
+      - ./frontend/config/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 8080:80
 
   db:
     build:
