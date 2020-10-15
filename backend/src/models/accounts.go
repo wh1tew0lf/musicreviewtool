@@ -19,7 +19,7 @@ type Account struct {
 	gorm.Model
 	Email    string `json:"email"`
 	Password string `json:"password"`
-	Token    string `json:"token";sql:"-"`
+	Token    string `json:"token" sql:"-"`
 }
 
 // Проверить входящие данные пользователя ...
@@ -106,7 +106,6 @@ func Login(email, password string) map[string]interface{} {
 }
 
 func GetUser(u uint) *Account {
-
 	acc := &Account{}
 	GetDB().Table("accounts").Where("id = ?", u).First(acc)
 	if acc.Email == "" { //Пользователь не найден!
