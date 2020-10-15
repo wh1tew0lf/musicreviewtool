@@ -5,8 +5,10 @@ services:
   backend:
     build:
       context: backend
-      dockerfile: backend/backend.docker
+      dockerfile: backend.docker
     restart: always
+    depends_on:
+      - "db"
     volumes:
       - ./backend/src:/var/www/html
     ports:
@@ -20,6 +22,8 @@ services:
   frontend:
     image: nginx:stable
     restart: always
+    depends_on:
+      - "backend"
     volumes:
       - ./frontend/build:/var/www/html
       - ./frontend/config/default.conf:/etc/nginx/conf.d/default.conf
@@ -29,18 +33,21 @@ services:
   db:
     build:
       context: db
-      dockerfile: db/db.docker
+      dockerfile: db.docker
     volumes:
-      - ./db/data:/var/lib/mysql
+      - ./db/data:/var/lib/postgresql/data/pgdata
     restart: always
     environment:
       POSTGRES_DB: mrt
       POSTGRES_USER: mrt
       POSTGRES_PASSWORD: mrt
+      PGDATA: /var/lib/postgresql/data/pgdata
 
   adminer:
     image: adminer
     restart: always
+    depends_on:
+      - "db"
     ports:
-    - 8080:8080
+    - 8081:8080
 

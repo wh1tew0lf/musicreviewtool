@@ -10,3 +10,13 @@ DB: PostgreSQL
 * User review for artist/album
 * Categorize music (Use open AI API)
 * Jenkins CI
+
+#How to run it
+
+Run at terminal
+```
+docker-compose build
+docker-compose up -d
+```
+and open at browser http://localhost:8080 to see UI. Access to database can be throw adminer: http://localhost:8081
+

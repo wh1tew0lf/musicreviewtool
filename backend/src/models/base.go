@@ -9,33 +9,32 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var db *gorm.DB //база данных
+var db *gorm.DB
 
 func init() {
 
-	e := godotenv.Load() //Загрузить файл .env
+	e := godotenv.Load()
 	if e != nil {
 		fmt.Print(e)
 	}
 
-	username := os.Getenv("db_user")
-	password := os.Getenv("db_pass")
-	dbName := os.Getenv("db_name")
-	dbHost := os.Getenv("db_host")
+	username := os.Getenv("APP_DB_USER")
+	password := os.Getenv("APP_DB_PASSWORD")
+	dbName := os.Getenv("APP_DB_NAME")
+	dbHost := os.Getenv("APP_DB_HOST")
 
-	dbUri := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password) //Создать строку подключения
-	fmt.Println(dbUri)
+	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password)
+	fmt.Println(dbURI)
 
-	conn, err := gorm.Open("postgres", dbUri)
+	conn, err := gorm.Open("postgres", dbURI)
 	if err != nil {
 		fmt.Print(err)
 	}
 
 	db = conn
-	db.Debug().AutoMigrate(&Account{}, &Contact{}) //Миграция базы данных
+	db.Debug().AutoMigrate(&Account{}, &Contact{})
 }
 
-// возвращает дескриптор объекта DB
 func GetDB() *gorm.DB {
 	return db
 }
