@@ -26,13 +26,12 @@ func init() {
 	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password)
 	fmt.Println(dbURI)
 
-	conn, err := gorm.Open("postgres", dbURI)
+	connection, err := gorm.Open("postgres", dbURI)
 	if err != nil {
 		fmt.Print(err)
 	}
 
-	db = conn
-	db.Debug().AutoMigrate(&Account{}, &Contact{})
+	connection.AutoMigrate(&User{}, &Artist{}, &Album{}, &ArtistRating{}, &AlbumRating{})
 }
 
 func GetDB() *gorm.DB {

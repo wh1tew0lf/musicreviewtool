@@ -1,34 +1,32 @@
 package controllers
 
 import (
-	"net/http"
-	u "musicreviewtool/utils"
-	"musicreviewtool/models"
 	"encoding/json"
+	"musicreviewtool/models"
+	u "musicreviewtool/utils"
+	"net/http"
 )
 
-var CreateAccount = func(w http.ResponseWriter, r *http.Request) {
-
-	account := &models.Account{}
-	err := json.NewDecoder(r.Body).Decode(account) //декодирует тело запроса в struct и завершается неудачно в случае ошибки
+var CreateUser = func(w http.ResponseWriter, r *http.Request) {
+	model := &models.User{}
+	err := json.NewDecoder(r.Body).Decode(model)
 	if err != nil {
 		u.Respond(w, u.Message(false, "Invalid request"))
 		return
 	}
 
-	resp := account.Create() //Создать аккаунт
+	resp := model.Create() //Создать аккаунт
 	u.Respond(w, resp)
 }
 
 var Authenticate = func(w http.ResponseWriter, r *http.Request) {
-
-	account := &models.Account{}
-	err := json.NewDecoder(r.Body).Decode(account) //декодирует тело запроса в struct и завершается неудачно в случае ошибки
+	model := &models.User{}
+	err := json.NewDecoder(r.Body).Decode(model)
 	if err != nil {
 		u.Respond(w, u.Message(false, "Invalid request"))
 		return
 	}
 
-	resp := models.Login(account.Email, account.Password)
+	resp := models.Login(model.Email, model.Password)
 	u.Respond(w, resp)
 }
