@@ -4,6 +4,7 @@ import (
 	"fmt"
 	u "musicreviewtool/utils"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/jinzhu/gorm"
 )
 
@@ -14,17 +15,13 @@ type ArtistRating struct {
 	UserId   uint `json:"user_id" gorm:"primaryKey;autoIncrement:false"`
 }
 
-func (artistRating *ArtistRating) Validate() (map[string]interface{}, bool) {
-	if artistRating.Rating <= 0 {
-		return u.Message(false, "Incorrect rating"), false
-	}
+func (model *ArtistRating) Validate() (map[string]interface{}, bool) {
+	var validate *validator.Validate = validator.New()
 
-	if artistRating.UserId <= 0 {
-		return u.Message(false, "User is not recognized"), false
-	}
+	validateErr := validate.Struct(model)
 
-	if artistRating.ArtistId <= 0 {
-		return u.Message(false, "Artist is not recognized"), false
+	for _, e := range validateErr.(validator.ValidationErrors) {
+		return u.Message(false, e.Error()), false
 	}
 
 	return u.Message(true, "success"), true

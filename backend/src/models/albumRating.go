@@ -9,9 +9,9 @@ import (
 
 type AlbumRating struct {
 	gorm.Model
-	Rating  uint `json:"rating"`
-	AlbumId uint `json:"album_id" gorm:"primaryKey;autoIncrement:false"`
-	UserId  uint `json:"user_id" gorm:"primaryKey;autoIncrement:false"`
+	Rating  uint `json:"rating" validate:"required,gte=0,lte=5"`
+	AlbumId uint `json:"album_id" gorm:"primaryKey;autoIncrement:false" validate:"required"`
+	UserId  uint `json:"user_id" gorm:"primaryKey;autoIncrement:false" validate:"required"`
 }
 
 func (AlbumRating *AlbumRating) Validate() (map[string]interface{}, bool) {

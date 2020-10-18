@@ -3,9 +3,9 @@ package models
 import (
 	u "musicreviewtool/utils"
 	"os"
-	"strings"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/go-playground/validator/v10"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -17,18 +17,18 @@ type Token struct {
 
 type User struct {
 	gorm.Model
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required,gte=6"`
 	Token    string `json:"token" sql:"-"`
 }
 
 func (model *User) Validate() (map[string]interface{}, bool) {
-	if !strings.Contains(model.Email, "@") {
-		return u.Message(false, "Email address is required"), false
-	}
+	var validate *validator.Validate = validator.New()
 
-	if len(model.Password) < 6 {
-		return u.Message(false, "Password is required"), false
+	validateErr := validate.Struct(model)
+
+	for _, e := range validateErr.(validator.ValidationErrors) {
+		return u.Message(false, e.Error()), false
 	}
 
 	temp := &User{}

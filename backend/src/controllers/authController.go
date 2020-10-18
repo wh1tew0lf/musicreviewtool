@@ -15,7 +15,7 @@ var CreateUser = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := model.Create() //Создать аккаунт
+	resp := model.Create()
 	u.Respond(w, resp)
 }
 
