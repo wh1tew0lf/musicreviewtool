@@ -30,7 +30,7 @@ func init() {
 		fmt.Print(err)
 	}
 
-	connection.AutoMigrate(&User{}, &Artist{}, &Album{}, &ArtistRating{}, &AlbumRating{})
+	connection.AutoMigrate(&User{}, &Artist{}, &Album{}, &Rating{})
 }
 
 func GetDB() *gorm.DB {

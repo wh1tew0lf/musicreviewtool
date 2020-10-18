@@ -10,31 +10,31 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var GetArtists = func(w http.ResponseWriter, r *http.Request) {
-	data := models.GetAllArtists(10, 0)
-	resp := u.Message(true, "success")
-	resp["data"] = data
-	u.Respond(w, resp)
-}
-
-var CreateArtist = func(w http.ResponseWriter, r *http.Request) {
+var CreateAlbum = func(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id, convertErr := strconv.Atoi(params["artistId"])
+	if convertErr != nil {
+		u.Respond(w, u.Message(false, "There was an error in your request"))
+		return
+	}
 	user := r.Context().Value("user").(uint)
-	model := &models.Artist{}
+	model := &models.Album{}
 
-	err := json.NewDecoder(r.Body).Decode(model)
-	if err != nil {
+	decodeErr := json.NewDecoder(r.Body).Decode(model)
+	if decodeErr != nil {
 		u.Respond(w, u.Message(false, "Error while decoding request body"))
 		return
 	}
 
+	model.ArtistId = uint(id)
 	model.UserId = user
 	resp := model.Create()
 	u.Respond(w, resp)
 }
 
-var GetOneArtist = func(w http.ResponseWriter, r *http.Request) {
+var GetOneAlbum = func(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	id, err := strconv.Atoi(params["artistId"])
+	id, err := strconv.Atoi(params["albumId"])
 	if err != nil {
 		u.Respond(w, u.Message(false, "There was an error in your request"))
 		return
@@ -46,15 +46,15 @@ var GetOneArtist = func(w http.ResponseWriter, r *http.Request) {
 	u.Respond(w, resp)
 }
 
-var UpdateArtist = func(w http.ResponseWriter, r *http.Request) {
+var UpdateAlbum = func(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	id, convErr := strconv.Atoi(params["artistId"])
+	id, convErr := strconv.Atoi(params["albumId"])
 	if convErr != nil {
 		u.Respond(w, u.Message(false, "There was an error in your request"))
 		return
 	}
 
-	model := models.GetArtist(uint(id))
+	model := models.GetAlbum(uint(id))
 
 	decodeErr := json.NewDecoder(r.Body).Decode(model)
 	if decodeErr != nil {
@@ -66,15 +66,15 @@ var UpdateArtist = func(w http.ResponseWriter, r *http.Request) {
 	u.Respond(w, resp)
 }
 
-var DeleteArtist = func(w http.ResponseWriter, r *http.Request) {
+var DeleteAlbum = func(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	id, convErr := strconv.Atoi(params["artistId"])
+	id, convErr := strconv.Atoi(params["albumId"])
 	if convErr != nil {
 		u.Respond(w, u.Message(false, "There was an error in your request"))
 		return
 	}
 
-	model := models.GetArtist(uint(id))
+	model := models.GetAlbum(uint(id))
 
 	decodeErr := json.NewDecoder(r.Body).Decode(model)
 	if decodeErr != nil {
