@@ -28,6 +28,9 @@ func main() {
 	router.HandleFunc("/api/artists/{artistId}/albums/{albumId}", controllers.UpdateAlbum).Methods("PUT")
 	router.HandleFunc("/api/artists/{artistId}/albums/{albumId}", controllers.DeleteAlbum).Methods("DELETE")
 
+	router.HandleFunc("/api/artists/{artistId}/rate", controllers.RateArtist).Methods("PUT")
+	router.HandleFunc("/api/artists/{artistId}/albums/{albumId}/rate", controllers.RateAlbum).Methods("PUT")
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8000"

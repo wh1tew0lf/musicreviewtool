@@ -27,14 +27,34 @@ func (model *Rating) Validate() (map[string]interface{}, bool) {
 	return u.Message(true, "success"), true
 }
 
-func (Rating *Rating) Create() map[string]interface{} {
+func (Rating *Rating) RateArtist(id uint8) map[string]interface{} {
 	if resp, ok := Rating.Validate(); !ok {
 		return resp
 	}
 
-	GetDB().Create(Rating)
+	// model := &Rating{}
+	// err := GetDB().Where("external_table='artists' AND external_id = ?", id).Find(model).Error
+	// if err != nil {
+	// 	return nil
+	// }
 
 	resp := u.Message(true, "success")
-	resp["Rating"] = Rating
+	// resp["rating"] = model
+	return resp
+}
+
+func (Rating *Rating) RateAlbum(id uint8) map[string]interface{} {
+	if resp, ok := Rating.Validate(); !ok {
+		return resp
+	}
+
+	// model := &Rating{}
+	// err := GetDB().Where("external_table='albums' AND external_id = ?", id).Find(model).Error
+	// if err != nil {
+	// 	return nil
+	// }
+
+	resp := u.Message(true, "success")
+	// resp["rating"] = model
 	return resp
 }

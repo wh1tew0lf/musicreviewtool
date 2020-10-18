@@ -35,7 +35,7 @@ func (model *Artist) Create() map[string]interface{} {
 	GetDB().Create(model)
 
 	resp := u.Message(true, "success")
-	resp["artist"] = artist
+	resp["artist"] = model
 	return resp
 }
 

@@ -11,7 +11,17 @@ import (
 )
 
 var GetArtists = func(w http.ResponseWriter, r *http.Request) {
-	data := models.GetAllArtists(10, 0)
+	query := r.URL.Query()
+	limit, convertErr := strconv.Atoi(query.Get("limit"))
+	if convertErr != nil {
+		limit = DefaultLimit
+	}
+
+	offset, convertErr := strconv.Atoi(query.Get("offset"))
+	if convertErr != nil {
+		offset = 0
+	}
+	data := models.GetAllArtists(uint(limit), uint(offset))
 	resp := u.Message(true, "success")
 	resp["data"] = data
 	u.Respond(w, resp)
@@ -40,9 +50,23 @@ var GetOneArtist = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	query := r.URL.Query()
+	limit, convertErr := strconv.Atoi(query.Get("limit"))
+	if convertErr != nil {
+		limit = DefaultLimit
+	}
+
+	offset, convertErr := strconv.Atoi(query.Get("offset"))
+	if convertErr != nil {
+		offset = 0
+	}
+
 	data := models.GetArtist(uint(id))
+	albums := models.GetAllAlbums(data.ID, uint(limit), uint(offset))
+
 	resp := u.Message(true, "success")
 	resp["data"] = data
+	resp["albums"] = albums
 	u.Respond(w, resp)
 }
 

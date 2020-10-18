@@ -49,13 +49,32 @@ func GetAlbum(id uint) *Album {
 	return album
 }
 
-func GetAlbums(user uint) []*Album {
+func GetAllAlbums(artistId uint, limit uint, offset uint) []*Album {
 	albums := make([]*Album, 0)
-	err := GetDB().Where("user_id = ?", user).Find(&albums).Error
+	err := GetDB().Limit(limit).Offset(offset).Where("artistId = ?", artistId).Find(&albums).Error
 	if err != nil {
 		fmt.Println(err)
 		return nil
 	}
 
 	return albums
+}
+
+func (model *Album) Update() map[string]interface{} {
+	if resp, ok := model.Validate(); !ok {
+		return resp
+	}
+
+	GetDB().Save(model)
+
+	resp := u.Message(true, "success")
+	resp["album"] = model
+	return resp
+}
+
+func (model *Album) Delete() map[string]interface{} {
+	GetDB().Delete(model)
+
+	resp := u.Message(true, "success")
+	return resp
 }

@@ -40,7 +40,7 @@ var GetOneAlbum = func(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := models.GetArtist(uint(id))
+	data := models.GetAlbum(uint(id))
 	resp := u.Message(true, "success")
 	resp["data"] = data
 	u.Respond(w, resp)
