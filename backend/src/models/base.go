@@ -31,6 +31,7 @@ func init() {
 	}
 
 	connection.AutoMigrate(&User{}, &Artist{}, &Album{}, &Rating{})
+	db = connection
 }
 
 func GetDB() *gorm.DB {

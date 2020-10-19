@@ -10,7 +10,7 @@ services:
     depends_on:
       - "db"
     volumes:
-      - ./backend/src:/var/www/html
+      - ./backend/src:/go/src
     ports:
       - 8000:8000
     environment:
@@ -50,4 +50,3 @@ services:
       - "db"
     ports:
     - 8081:8080
-

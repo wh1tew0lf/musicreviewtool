@@ -20,9 +20,10 @@ func (model *Album) Validate() (map[string]interface{}, bool) {
 	var validate *validator.Validate = validator.New()
 
 	validateErr := validate.Struct(model)
-
-	for _, e := range validateErr.(validator.ValidationErrors) {
-		return u.Message(false, e.Error()), false
+	if validateErr != nil {
+		for _, e := range validateErr.(validator.ValidationErrors) {
+			return u.Message(false, e.Error()), false
+		}
 	}
 
 	return u.Message(true, "success"), true

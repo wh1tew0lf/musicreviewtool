@@ -27,8 +27,10 @@ func (model *User) Validate() (map[string]interface{}, bool) {
 
 	validateErr := validate.Struct(model)
 
-	for _, e := range validateErr.(validator.ValidationErrors) {
-		return u.Message(false, e.Error()), false
+	if validateErr != nil {
+		for _, e := range validateErr.(validator.ValidationErrors) {
+			return u.Message(false, e.Error()), false
+		}
 	}
 
 	temp := &User{}
