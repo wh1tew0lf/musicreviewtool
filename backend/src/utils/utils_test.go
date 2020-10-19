@@ -2,6 +2,12 @@ package utils
 
 import "testing"
 
+func expectEqual(t *testing.T, field string, expected interface{}, actual interface{}) {
+	if expected != actual {
+		t.Error("For", field, "expected", expected, "got", actual)
+	}
+}
+
 func TestMessage(t *testing.T) {
 	expectedStatus := true
 	expectedMessage := "test"
@@ -11,11 +17,6 @@ func TestMessage(t *testing.T) {
 	actualStatus := result["status"]
 	actualMessage := result["message"]
 
-	if actualStatus != expectedStatus {
-		t.Error("For status expected", expectedStatus, "got", actualStatus)
-	}
-
-	if actualMessage != expectedMessage {
-		t.Error("For status expected", expectedMessage, "got", actualMessage)
-	}
+	expectEqual(t, "status", expectedStatus, actualStatus)
+	expectEqual(t, "message", expectedMessage, actualMessage)
 }

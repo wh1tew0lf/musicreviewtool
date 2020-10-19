@@ -20,3 +20,9 @@ docker-compose up -d
 ```
 and open at browser http://localhost:8080 to see UI. Access to database can be throw adminer: http://localhost:8081
 
+
+#Run go test
+```
+cd backend/scr
+go test ./... -count=1 -cover
+```
