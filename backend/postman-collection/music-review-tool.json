@@ -1,0 +1,53 @@
+{
+	"info": {
+		"_postman_id": "30ba8c2f-2608-47c3-8daf-61afe3e46ea4",
+		"name": "musicReviewTool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SignUp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e792be80-46d5-41e7-9685-cd9961da0e8e",
+						"exec": [
+							"var data = pm.response.json();",
+							"pm.environment.set(\"token\", data.user.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"qa{{$timestamp}}@mail.loc\",\n\t\"password\": \"Password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/user/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user",
+						"new"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
