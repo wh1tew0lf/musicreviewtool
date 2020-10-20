@@ -17,14 +17,13 @@ pipeline {
                 step([$class: 'GitHubSetCommitStatusBuilder', contextSource: [$class: 'ManuallyEnteredCommitContextSource']])
             }
         }
-        stage('Install dependencies') {
+        stage('Build images') {
             steps {
-              dir('${env.WORKSPACE}/backend/src') {
-                sh 'go get -d -v .'
-                sh 'go install -v .'
+              dir('${env.WORKSPACE}/backend') {
+                sh 'docker build . -t "mrt-backend" -f backend.docker'
               }
               dir('${env.WORKSPACE}/frontend/src') {
-                sh 'npm ci'
+                sh 'sleep 1 || npm ci'
               }
             }
         }
@@ -33,23 +32,18 @@ pipeline {
                 CI = 'true'
             }
             steps {
-              dir('${env.WORKSPACE}/backend/src') {
-                sh 'go test ./... -count=1 -cover'
+              dir('${env.WORKSPACE}/backend') {
+                sh 'docker run --rm --name mrt-backend-unit-tests mrt-backend:latest go test ./... -count=1 -cover'
               }
               dir('${env.WORKSPACE}/frontend/src') {
-                sh 'npm run test'
+                sh 'sleep 1 || npm run test'
               }
             }
         }
-        stage('Build') {
-            steps {
-              dir('${env.WORKSPACE}/backend/src') {
-                sh 'go build'
-              }
-              dir('${env.WORKSPACE}/frontend/src') {
-                sh 'npm run build'
-              }
-            }
+        stage('Tear down') {
+          steps {
+            sh 'docker rmi mrt-backend:latest'
+          }
         }
     }
     post {
