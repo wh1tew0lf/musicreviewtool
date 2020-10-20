@@ -1,0 +1,7 @@
+FROM node:lts
+
+RUN mkdir -p /source
+COPY ./source /source
+WORKDIR /source
+
+RUN npm ci

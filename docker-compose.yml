@@ -2,6 +2,19 @@
 version: '3.1'
 
 services:
+  db:
+    build:
+      context: db
+      dockerfile: db.docker
+    volumes:
+      - ./db/data:/var/lib/postgresql/data/pgdata
+    restart: always
+    environment:
+      POSTGRES_DB: mrt
+      POSTGRES_USER: mrt
+      POSTGRES_PASSWORD: mrt
+      PGDATA: /var/lib/postgresql/data/pgdata
+
   backend:
     build:
       context: backend
@@ -20,28 +33,17 @@ services:
       APP_DB_HOST: db
 
   frontend:
-    image: nginx:stable
+    build:
+      context: frontend
+      dockerfile: frontend.docker
     restart: always
     depends_on:
       - "backend"
     volumes:
-      - ./frontend/build:/var/www/html
+      - ./frontend/source/build:/var/www/html
       - ./frontend/config/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 8080:80
-
-  db:
-    build:
-      context: db
-      dockerfile: db.docker
-    volumes:
-      - ./db/data:/var/lib/postgresql/data/pgdata
-    restart: always
-    environment:
-      POSTGRES_DB: mrt
-      POSTGRES_USER: mrt
-      POSTGRES_PASSWORD: mrt
-      PGDATA: /var/lib/postgresql/data/pgdata
 
   adminer:
     image: adminer

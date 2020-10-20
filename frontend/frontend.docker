@@ -1,5 +1,17 @@
-FROM go:lts
+FROM node:lts as frontend-builder
 
-WORKDIR /var/www/html/
+RUN mkdir -p /source
+COPY ./source /source
+WORKDIR /source
 RUN npm ci
 RUN npm run build
+
+FROM nginx:latest
+LABEL Description="omctf2018ad-frontend"
+
+COPY --from=frontend-builder /source/build /var/www/html
+WORKDIR /var/www/html
+COPY ./config/default.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

@@ -22,27 +22,25 @@ pipeline {
               dir('backend') {
                 sh 'docker build . -t "mrt-backend" -f backend.docker'
               }
-              dir('frontend/src') {
-                sh 'sleep 1 || npm ci'
+              dir('frontend') {
+                sh 'docker build . -t "mrt-frontend" -f frontend-test.docker'
               }
             }
         }
-        stage('Quality checks') {
-            environment { 
-                CI = 'true'
-            }
+        stage('Quality checks') {            
             steps {
               dir('backend') {
                 sh 'docker run --rm --name mrt-backend-unit-tests mrt-backend:latest go test ./... -count=1 -cover'
               }
-              dir('frontend/src') {
-                sh 'sleep 1 || npm run test'
+              dir('frontend') {
+                sh 'docker run --rm --env CI=true --name mrt-frontend-unit-tests mrt-frontend:latest npm run test'
               }
             }
         }
         stage('Tear down') {
           steps {
             sh 'docker rmi mrt-backend:latest'
+            sh 'docker rmi mrt-frontend:latest'
           }
         }
     }
