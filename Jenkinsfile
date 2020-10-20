@@ -19,10 +19,10 @@ pipeline {
         }
         stage('Build images') {
             steps {
-              dir('${env.WORKSPACE}/backend') {
+              dir('backend') {
                 sh 'docker build . -t "mrt-backend" -f backend.docker'
               }
-              dir('${env.WORKSPACE}/frontend/src') {
+              dir('frontend/src') {
                 sh 'sleep 1 || npm ci'
               }
             }
@@ -32,10 +32,10 @@ pipeline {
                 CI = 'true'
             }
             steps {
-              dir('${env.WORKSPACE}/backend') {
+              dir('backend') {
                 sh 'docker run --rm --name mrt-backend-unit-tests mrt-backend:latest go test ./... -count=1 -cover'
               }
-              dir('${env.WORKSPACE}/frontend/src') {
+              dir('frontend/src') {
                 sh 'sleep 1 || npm run test'
               }
             }
