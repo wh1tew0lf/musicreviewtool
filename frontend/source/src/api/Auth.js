@@ -50,13 +50,4 @@ export default class Auth {
       })
     });
   }
-
-  static session(token) {
-    return Auth.fetch(`/auth/${token}`);
-  }
-
-  static logOut(token) {
-    return Auth
-      .fetch(`/auth/${token}`, {method: 'DELETE'});
-  }
 }

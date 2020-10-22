@@ -6,8 +6,6 @@ export default class authActions {
     return {
       signIn: 'SIGN_IN',
       signUp: 'SIGN_UP',
-      logOut: 'LOG_OUT',
-      check: 'CHECK',
     }
   }
 
@@ -52,13 +50,4 @@ export default class authActions {
   static signIn(login, password) {
     return authActions._makeRequest(authActions.actions.signIn, api.auth.signIn(login, password));
   }
-
-  static check(token) {
-    return authActions._makeRequest(authActions.actions.check, api.auth.session(token));
-  }
-
-  static logOut(token) {
-    return authActions._makeRequest(authActions.actions.logOut, api.auth.logOut(token));
-  }
-
 }

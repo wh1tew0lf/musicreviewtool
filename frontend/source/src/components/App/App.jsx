@@ -5,27 +5,22 @@ import { authActions } from '../../store/actions';
 import './App.css';
 
 function App() {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const counter = useSelector(state => state);
   const dispatch = useDispatch();
 
-  const changeEmail = (value) => {
-    console.log('changeEmail', value);
-    setEmail(value);
+  const changeEmail = (event) => {
+    setEmail(event.target.value);
   };
 
-  const changePass = (value) => {
-    console.log('changePass', value);
-    setEmail(value);
+  const changePass = (event) => {
+    setPassword(event.target.value);
   };
 
   const signUp = (e) => {
     e.preventDefault();
-    dispatch(authActions.signUp({
-      email,
-      password
-    }));
+    dispatch(authActions.signUp(email, password));
   };
 
   return (
@@ -44,7 +39,7 @@ function App() {
 
       <form>
         <input name="email" onChange={changeEmail} />
-        <input name="email" type="passowrd" onChange={changePass} />
+        <input name="email" type="password" onChange={changePass} />
         <button type="submit" onClick={signUp}>Sign Up</button>
       </form>
     </div>

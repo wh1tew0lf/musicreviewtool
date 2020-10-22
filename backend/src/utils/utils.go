@@ -12,6 +12,9 @@ func Message(status bool, message string) map[string]interface{} {
 
 func Respond(w http.ResponseWriter, data map[string]interface{}) {
 	w.Header().Add("Content-Type", "application/json")
+	if data["status"] == false {
+		w.WriteHeader(http.StatusBadRequest)
+	}
 	err := json.NewEncoder(w).Encode(data)
 	if err != nil {
 		fmt.Print(err)
