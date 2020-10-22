@@ -9,7 +9,8 @@
 /coverage
 
 # production
-/frontend/build
+/frontend/source/build
+/frontend/source/node_modules
 
 # misc
 .DS_Store
@@ -24,5 +25,6 @@ yarn-error.log*
 
 # ide
 node_modules
+build
 /.idea/
 /db/data/
